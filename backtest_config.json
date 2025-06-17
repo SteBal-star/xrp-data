@@ -1,11 +1,11 @@
 {
-  "strategy_name": "DifDea_J_MUTLITR_STRAT",
+  "strategy_name": "DifDea_J_MUTLITR_STRAT_2",
   "initial_capital": 3000,
   "risk_reward_ratio": 0.0,
   "stop_loss_limit": 0.0,
-  "fee_rate": 0.15,
+  "feerate": 0.15,
   "take_profits": [],
   "auto_reinvest": true,
-  "trading_strategy": "buywhen DIF clearly croise sur DEA (MCD) au monte son d'EAG au timeframe 1min, etq ventre si la valeur jours descends au 15mn comparin au prévisusple (J indicateur) sur le 15min. Vente sur jours les descendes du J en 3min",
-  "csv_path": "binancexrp/xrp_1m_last27ays.csv"
+  "trading_strategy": "Achter sur DIF croise le DEA et si J 15min est aux sup&�rieur é l'ancienne valeur. Vente sur J en 3min si la valeur saut. Test sur les 2 derniers des données de 30 jours",
+  "csv_path": "binancexrp/xrp_1m_last30days.csv"
 }
