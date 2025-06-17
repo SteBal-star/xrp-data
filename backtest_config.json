@@ -1,8 +1,10 @@
 {
-  "capital": 1000,
-  "leverage": 22,
-  "fee_rate": 0.15,
-  "buy_kdj_j_threshold": 30,
-  "sell_kdj_j_drop": true,
-  "csv_path": "binancexrp/xrp_1m_last30days.csv"
+  "strategy_name": "Test_Strat",
+  "initial_capital": 100000,
+  "risk_reward_ratio": 0.2,
+  "stop_loss_limit": -0.5,
+  "take_profits": [
+    { "target": "BNB", "volume": 500, "threshold": 0.05},
+    { "target": "ETHER", "volume": 500, "threshold": 0.05}
+  ]
 }
