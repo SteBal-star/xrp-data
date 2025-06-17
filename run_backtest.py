@@ -3,24 +3,25 @@ import json
 import pandas as pd
 import subprocess
 
-# Charger les parametres
+# Charger les paramètres
 with open("backtest_config.json", "r") as f:
     config = json.load(f)
 
 capital = config.get("capital", 1000)
 leverage = config.get("leverage", 1)
-fee_rate_gain = config.get("loss_fee_rate", 0.15)
-fee_rate_loss = config.get("gain_fee_rate", 0.05)
+fee_rate_gain = config.get("gain_fee_rate", 0.05)
+fee_rate_loss = config.get("loss_fee_rate", 0.15)
 csv_path = config.get("csv_path", "binancexrp/xrp_1m_last30days.csv")
 
-df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
-subframes = {"1m": df}
+# Charger les données
+main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
+subframes = {"1m": main_df}  # D'autres timeframes à ajouter si nécessaire
 
 position = 0
 entry_price = 0
 equity = capital
 
-for i in range(1, len(df)):
+for i in range(1, len(main_df)):
     def check_conditions(conditions):
         for cond in conditions:
             tf = cond.get("timeframe", "1m")
@@ -31,11 +32,11 @@ for i in range(1, len(df)):
                 return False
             if cond["indicator"] == "MACD":
                 dea = df['DEA'].iloc[i]
-                dif = df'DIF'].iloc[i]
-                if cond.get("cross") == "bullish" and not (dif > dea and df['DIF'].iloc[i-1] <= df'DEA'][i-1]):
+                dif = df['DIF'].iloc[i]  # ✅ Correction ici
+                if cond.get("cross") == "bullish" and not (dif > dea and df['DIF'].iloc[i-1] <= df['DEA'].iloc[i-1]):
                     return False
             elif cond["indicator"] == "J":
-                j_now = df'J'].iloc[i]
+                j_now = df['J'].iloc[i]
                 j_prev = df['J'].iloc[i - 1]
                 if cond.get("trend") == "up" and not (j_now > j_prev):
                     return False
@@ -45,7 +46,7 @@ for i in range(1, len(df)):
 
     buy_cond = config.get("buy_conditions", [])
     sell_cond = config.get("sell_conditions", [])
-    close = df'close'].iloc[i]
+    close = main_df['close'].iloc[i]
 
     if position == 0 and check_conditions(buy_cond):
         position = 1
@@ -57,15 +58,18 @@ for i in range(1, len(df)):
         position = 0
 
 if position == 1:
-    pct = ((df'close'].iloc[-1] - entry_price) / entry_price) * leverage
+    pct = ((main_df['close'].iloc[-1] - entry_price) / entry_price) * leverage
     fee = abs(pct) * (fee_rate_loss if pct < 0 else fee_rate_gain)
     equity *= (1 + pct - fee)
+
+# Écriture du résultat
 with open("backtest_output.txt", "w", encoding="utf-8") as f:
-    f.write("====== RÍSULTATS ======\n")
-    f.write(f"�� Capital initial : ${capital}$")
-    f.write(f"�� Capital final   : ${equity:.2f}$")
-    f.write(f"�� Performance     : ${((equity - capital) / capital) * 100:.2f%)_\n")
-print("====== RÍSULTATS ======")
-print(f"🌈Capital initial : ${capital}$")
-print(f"�� Capital final   : ${equity:.2f}$")
-print(f"��: Performance     : {((equity - capital) / capital) * 100:.2f%)_\n")
+    f.write("===== RÉSULTATS =====\n")
+    f.write(f"📈 Capital initial : {capital}$\n")
+    f.write(f"🏁 Capital final   : {equity:.2f}$\n")
+    f.write(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%\n")
+
+print("===== RÉSULTATS =====")
+print(f"📈 Capital initial : {capital}$")
+print(f"🏁 Capital final   : {equity:.2f}$")
+print(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%")
