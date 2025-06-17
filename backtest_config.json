@@ -22,5 +22,6 @@
       "timeframe": "3m",
       "trend": "down"
     }
-  ]
+  ],
+  "_trigger": "V1.1"
 }
