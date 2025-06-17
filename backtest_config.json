@@ -1,0 +1,8 @@
+{
+  "capital": 1000,
+  "leverage": 22,
+  "fee_rate": 0.15,
+  "buy_kdj_j_threshold": 30,
+  "sell_kdj_j_drop": true,
+  "csv_path": "binancexrp/xrp_1m_last30days.csv"
+}
