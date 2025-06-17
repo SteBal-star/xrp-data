@@ -1,28 +1,43 @@
-name: Backtest Strategy
+name: Backtest Strategy (Auto)
 
 on:
-  workflow_dispatch:  # Déclenchement manuel (via GitHub ou via API GPT)
+  push:
+    paths:
+      - 'backtest_config.json'
+  workflow_dispatch:  # Permet aussi le déclenchement manuel
 
 jobs:
   backtest:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout du dépôt
+      - name: 📥 Cloner le dépôt
         uses: actions/checkout@v3
 
-      - name: Installer Python
+      - name: 🐍 Installer Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Installer les dépendances
+      - name: 📦 Installer les dépendances
         run: pip install pandas
 
-      - name: Exécuter le backtest
+      - name: 🚀 Exécuter le backtest
         run: python run_backtest.py
 
-      - name: Afficher les résultats
+      - name: 📄 Afficher les résultats
         run: |
           echo "===== RÉSULTATS ====="
           cat backtest_output.txt
+
+      - name: 🛠 Configurer Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+
+      - name: ✅ Commit & Push des résultats
+        run: |
+          git add backtest_output.txt
+          git commit -m "📊 Résultats du backtest déclenchés par GPT"
+          git push
+        continue-on-error: true
