@@ -1,0 +1,4 @@
+===== RÉSULTATS =====
+📈 Capital initial : 1000$
+🏁 Capital final   : 0.02$
+📊 Performance     : -100.00%
