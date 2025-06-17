@@ -40,8 +40,12 @@ if position == 1:
     equity *= (1 + pct - fees)
 
 # Écriture dans le fichier
+# on fait un refraicissage complet
+
+# =--- -- -- Effacement complet sysnématique -- -- --
+
 with open("backtest_output.txt", "w", encoding="utf-8") as f:
-    f.write("===== RÉSULTATS =====\n")
+    f.write(f"]==== RÉSULTATS =====\n")
     f.write(f"📈 Capital initial : {capital}$\n")
     f.write(f"🏁 Capital final   : {equity:.2f}$\n")
     f.write(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%\n")
