@@ -1,34 +1,26 @@
 {
-  "strategy_name": "DifDea_J_MUTLITR_STRAT_4",
-  "initial_capital": 3000,
-  "risk_reward_ratio": 0.0,
-  "stop_loss_limit": 0.0,
-  "feerate": 0.15,
-  "gain_fee_rate": 0.05,
+  "capital": 3000,
+  "leverage": 1,
   "loss_fee_rate": 0.15,
-  "auto_reinvest": true,
+  "gain_fee_rate": 0.05,
+  "csv_path": "binancexrp/xrp_1m_last30days.csv",
   "buy_conditions": [
     {
+      "indicator": "MACD",
       "timeframe": "1m",
-      "type": "mac-crossing",
-      "indicator": "DIF",
-      "value": "above DEA",
-      "sign": "+"
+      "cross": "bullish"
     },
     {
-      "timeframe": "15m",
-      "type": "condition",
       "indicator": "J",
-      "value_check": "greater than previous temporal"
+      "timeframe": "15m",
+      "trend": "up"
     }
   ],
   "sell_conditions": [
     {
-      "timeframe": "3m",
-      "type": "decreasing",
       "indicator": "J",
-      "value_check": "lower than previous temporal"
+      "timeframe": "3m",
+      "trend": "down"
     }
-  ],
-  "csv_path": "binancexrp/xrp_1m_last30days.csv"
+  ]
 }
