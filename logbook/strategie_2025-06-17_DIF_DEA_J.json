@@ -1,0 +1,10 @@
+{
+  "strategie": "DIF roise DEA (1m) + J(15m) haussier - J(3m) baissier",
+  "date": "2025-06-17",
+  "capital_initial": 3000,
+  "frame_principal": "backtest_result",
+  "trades": [
+    /* ÉTRADES À ENrECORS SUIVI ***
+    { "entree": "2025-06-03 09:30", "price_entree": 1.08, "sortie": "2025-06-03 11:00", "price_sortie": 1.12, "capital": 3300.0, "performance": 0.02, "plusvalu": 660 }
+  ]
+}
