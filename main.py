@@ -68,12 +68,20 @@ for interval in timeframes:
 
     while start_time < end_time:
         raw_data = get_klines(symbol, interval, start_time, limit)
-        if not raw_data:
-            break
-        df = convert_to_df(raw_data)
-        all_data.append(df)
 
-        last_time = raw_data[-1][0]
+# Sécurité : si la réponse est vide ou incorrecte
+if not raw_data or not isinstance(raw_data, list) or len(raw_data) == 0:
+    print(f"❌ Pas de données reçues pour {interval} à partir de {start_time}")
+    break
+
+try:
+    df = convert_to_df(raw_data)
+    all_data.append(df)
+    last_time = raw_data[-1][0]
+except Exception as e:
+    print(f"⚠️ Erreur lors du traitement des données {interval} : {e}")
+    break
+
         start_time = last_time + 60_000
         time.sleep(0.3)
 
