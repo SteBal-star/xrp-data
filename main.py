@@ -10,6 +10,8 @@ symbol = 'XRPUSDT'
 timeframes = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '1d']
 limit = 1000
 days_to_fetch = 30
+
+# ✅ Chemin universel
 dest_folder = os.path.join(os.getcwd(), "binancexrp")
 os.makedirs(dest_folder, exist_ok=True)
 
@@ -34,6 +36,7 @@ def add_kdj(df, period=9, k_smooth=3, d_smooth=3):
     df['J'] = j
     return df
 
+# === API Binance ===
 def get_klines(symbol, interval, start_time, limit=1000):
     url = "https://api.binance.com/api/v3/klines"
     params = {
@@ -56,9 +59,9 @@ def convert_to_df(data):
     df = df[['open', 'high', 'low', 'close', 'volume']].astype(float)
     return df
 
-# === TRAITEMENT GLOBAL ===
+# === TÉLÉCHARGEMENT DES DONNÉES ===
 for interval in timeframes:
-    print(f"-> Téléchargement : {interval}")
+    print(f"Téléchargement : {interval}")
     end_time = int(datetime.now().timestamp() * 1000)
     start_time = int((datetime.now() - timedelta(days=days_to_fetch)).timestamp() * 1000)
     all_data = []
@@ -78,24 +81,26 @@ for interval in timeframes:
         final_df = pd.concat(all_data)
         final_df = final_df[~final_df.index.duplicated(keep='first')]
         final_df.sort_index(inplace=True)
+
         final_df = add_macd(final_df)
         final_df = add_kdj(final_df)
 
         filename = f"xrp_{interval}_last30days.csv"
         filepath = os.path.join(dest_folder, filename)
-        final_df.to_csv(filepath)
+        final_df.to_csv(filepath, encoding='utf-8')
         print(f"✅ Sauvegardé : {filepath}")
     else:
         print(f"❌ Aucun résultat pour {interval}")
 
-# === PUSH VERS GITHUB (branche 'data') ===
+# === PUSH AUTOMATIQUE VERS GITHUB ===
 def push_to_github():
     try:
+        subprocess.run(["git", "checkout", "master"], check=True)
         subprocess.run(["git", "add", "."], check=True)
         subprocess.run(["git", "commit", "-m", "Update CSV data"], check=True)
-        subprocess.run(["git", "push", "origin", "data"], check=True)
-        print("✅ Données poussées sur GitHub (branche 'data') avec succès.")
+        subprocess.run(["git", "push", "origin", "master"], check=True)
+        print("✅ Données poussées sur GitHub (branche 'master') avec succès.")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Erreur Git : {e}")
+        print(f"❌ Erreur lors du push Git : {e}")
 
 push_to_github()
