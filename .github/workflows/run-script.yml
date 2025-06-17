@@ -2,8 +2,8 @@ name: Run Binance script
 
 on:
   schedule:
-    - cron: "0 3 * * *"  # Tous les jours à 03:00 UTC (23:00 à Montréal)
-  workflow_dispatch:      # Permet de le lancer manuellement
+    - cron: "0 3 * * *"  # Tous les jours à 03:00 UTC
+  workflow_dispatch:
 
 jobs:
   run:
@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -28,9 +30,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config user.name "Sydney"
-        git config user.email "sydney@example.com"
-        git pull origin main --rebase
+        git config --global user.name "Sydney"
+        git config --global user.email "sydney@example.com"
         git add .
         git commit -m "auto: update CSVs from GitHub Actions" || echo "nothing to commit"
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+        git push origin HEAD:main --force
