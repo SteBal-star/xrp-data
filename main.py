@@ -6,10 +6,12 @@ from datetime import datetime, timedelta
 
 # === CONFIGURATION ===
 symbol = 'XRPUSDT'
-timeframes = ['1m','3m','5m','15m','30m','1h','2h','4h','1d']
+timeframes = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '1d']
 limit = 1000
 days_to_fetch = 30
-dest_folder = r"C:\Users\That's Me\Desktop\Binancexrp"
+
+# ✅ Chemin compatible partout (local + GitHub)
+dest_folder = os.path.join(os.getcwd(), "binancexrp")
 os.makedirs(dest_folder, exist_ok=True)
 
 # === INDICATEURS ===
@@ -33,6 +35,7 @@ def add_kdj(df, period=9, k_smooth=3, d_smooth=3):
     df['J'] = j
     return df
 
+# === FONCTIONS D'API ===
 def get_klines(symbol, interval, start_time, limit=1000):
     url = "https://api.binance.com/api/v3/klines"
     params = {
