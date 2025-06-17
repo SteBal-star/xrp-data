@@ -1,39 +1,12 @@
-import os
-import time
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
-import subprocess
 
-# === CONFIGURATION ===
 symbol = 'XRPUSDT'
-timeframes = ['1m','3m','5m','15m','30m','1h','2h','4h','1d']
-limit = 500
-days_to_fetch = 2
-local_repo_path = "."
+interval = '1m'
+limit = 1000
+days_to_fetch = 1
 
-# === INDICATEURS ===
-def add_macd(df, fast=12, slow=26, signal=9):
-    exp1 = df['close'].ewm(span=fast, adjust=False).mean()
-    exp2 = df['close'].ewm(span=slow, adjust=False).mean()
-    df['MACD_DIF'] = exp1 - exp2
-    df['MACD_DEA'] = df['MACD_DIF'].ewm(span=signal, adjust=False).mean()
-    df['MACD_Hist'] = df['MACD_DIF'] - df['MACD_DEA']
-    return df
-
-def add_kdj(df, period=9, k_smooth=3, d_smooth=3):
-    low_min = df['low'].rolling(window=period).min()
-    high_max = df['high'].rolling(window=period).max()
-    rsv = (df['close'] - low_min) / (high_max - low_min) * 100
-    k = rsv.ewm(com=k_smooth - 1).mean()
-    d = k.ewm(com=d_smooth - 1).mean()
-    j = 3 * k - 2 * d
-    df['K'] = k
-    df['D'] = d
-    df['J'] = j
-    return df
-
-# === RÉCUPÉRATION BINANCE ===
 def get_klines(symbol, interval, start_time, limit=1000):
     url = "https://api.binance.com/api/v3/klines"
     params = {
@@ -45,72 +18,21 @@ def get_klines(symbol, interval, start_time, limit=1000):
     response = requests.get(url, params=params)
     return response.json()
 
-def convert_to_df(data):
-    df = pd.DataFrame(data, columns=[
-        'timestamp', 'open', 'high', 'low', 'close', 'volume',
-        'close_time', 'quote_asset_volume', 'num_trades',
-        'taker_buy_base_vol', 'taker_buy_quote_vol', 'ignore'
-    ])
-    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-    df.set_index('timestamp', inplace=True)
-    df = df[['open', 'high', 'low', 'close', 'volume']].astype(float)
-    return df
+print(f"🔍 TEST - Interval : {interval}")
 
-# === TRAITEMENT PAR TIMEFRAME ===
-for interval in timeframes:
-    print(f"▶ Téléchargement : {interval}")
-    end_time = int((datetime.utcnow() - timedelta(minutes=15)).timestamp() * 1000)
-    start_time = int((datetime.utcnow() - timedelta(days=days_to_fetch)).timestamp() * 1000)
-    all_data = []
+end_time = int((datetime.utcnow() - timedelta(minutes=15)).timestamp() * 1000)
+start_time = int((datetime.utcnow() - timedelta(days=days_to_fetch)).timestamp() * 1000)
 
-    while start_time < end_time:
-        raw_data = get_klines(symbol, interval, start_time, limit)
-        print(f"Requête {interval} → {len(raw_data) if raw_data else 0} bougies")
+print(f"🕐 Requête entre {start_time} et {end_time}")
+print(f"🕓 UTC début : {datetime.utcfromtimestamp(start_time / 1000)}")
+print(f"🕓 UTC fin   : {datetime.utcfromtimestamp(end_time / 1000)}")
 
-        if not raw_data or not isinstance(raw_data, list):
-            print(f"❌ Pas de données valides reçues pour {interval} à partir de {start_time}")
-            break
+data = get_klines(symbol, interval, start_time, limit)
+print(f"📊 Bougies reçues : {len(data)}")
 
-        if len(raw_data) < 2:
-            print(f"⚠️ Moins de 2 bougies reçues pour {interval} à partir de {start_time} → fin du téléchargement.")
-            break
-
-        try:
-            df = convert_to_df(raw_data)
-            all_data.append(df)
-            last_time = raw_data[-1][0]
-            start_time = last_time + 60_000
-            time.sleep(1 if interval in ['1h', '2h', '4h', '1d'] else 0.3)
-        except Exception as e:
-            print(f"⚠️ Erreur lors du traitement {interval} : {e}")
-            break
-
-    if all_data:
-        final_df = pd.concat(all_data)
-        final_df = final_df[~final_df.index.duplicated(keep='first')]
-        final_df.sort_index(inplace=True)
-
-        final_df = add_macd(final_df)
-        final_df = add_kdj(final_df)
-
-        filename = f"xrp_{interval}_last{days_to_fetch}d.csv"
-        filepath = os.path.join(local_repo_path, filename)
-        final_df.to_csv(filepath)
-        print(f"✅ Sauvegardé : {filepath}")
-    else:
-        print(f"❌ Aucun résultat final pour {interval}")
-
-# === GIT : PUSH AUTOMATIQUE ===
-print("📁 Contenu du dossier avant Git add :")
-print(os.listdir(local_repo_path))
-
-subprocess.run(["git", "config", "--global", "user.name", "Sydney"])
-subprocess.run(["git", "config", "--global", "user.email", "sydney@example.com"])
-subprocess.run(["git", "checkout", "-B", "main"])
-subprocess.run(["git", "add", "."], cwd=local_repo_path)
-subprocess.run(["git", "commit", "-m", f"auto: update CSVs {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')}"], cwd=local_repo_path, stderr=subprocess.DEVNULL)
-subprocess.run([
-    "git", "push",
-    f"https://x-access-token:{os.environ['GITHUB_TOKEN']}@github.com/{os.environ['GITHUB_REPOSITORY']}.git",
-    "main", "--force"
-], cwd=local_repo_path)
+# Vérification simple
+if len(data) > 0:
+    print("✅ Exemple de ligne :")
+    print(data[0])
+else:
+    print("❌ Aucune donnée retournée")
