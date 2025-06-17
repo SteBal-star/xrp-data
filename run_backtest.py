@@ -15,7 +15,7 @@ csv_path = config.get("csv_path", "binancexrp/xrp_1m_last30days.csv")
 
 # Charger les données
 main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
-subframes = {"1m": main_df}  # D'autres timeframes à ajouter si nécessaire
+subframes = {"1m": main_df}
 
 position = 0
 entry_price = 0
@@ -31,9 +31,9 @@ for i in range(1, len(main_df)):
             if i >= len(df):
                 return False
             if cond["indicator"] == "MACD":
-                dea = df['DEA'].iloc[i]
-                dif = df['DIF'].iloc[i]  # ✅ Correction ici
-                if cond.get("cross") == "bullish" and not (dif > dea and df['DIF'].iloc[i-1] <= df['DEA'].iloc[i-1]):
+                dea = df['MACD_DEA'].iloc[i]
+                dif = df['MACD_DIF'].iloc[i]
+                if cond.get("cross") == "bullish" and not (dif > dea and df['MACD_DIF'].iloc[i-1] <= df['MACD_DEA'].iloc[i-1]):
                     return False
             elif cond["indicator"] == "J":
                 j_now = df['J'].iloc[i]
