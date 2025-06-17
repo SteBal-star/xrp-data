@@ -15,6 +15,11 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Fix detached HEAD
+      run: |
+        git fetch origin
+        git checkout main
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -34,4 +39,4 @@ jobs:
         git config --global user.email "sydney@example.com"
         git add .
         git commit -m "auto: update CSVs from GitHub Actions" || echo "nothing to commit"
-        git push origin HEAD:main --force
+        git push origin main --force
