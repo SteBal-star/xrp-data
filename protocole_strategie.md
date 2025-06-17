@@ -1,16 +1,31 @@
-# Protocole de strategie - vV1.0
+## Protocole de stratégie - v1.0
 
-This protocole define la m%C3%A9thodoligie de traitement automatisée lors du backtest.
+Ce protocole définit la méthodologie de traitement automatisé lors du backtest.
 
-- [] Execution automatique dans la d%C3%A9mande : 
-          "\"Test une nouvelle strat%C3%A9gie con les caract%C3%A9ristiques : ...\""
-- [] Sans confirmation complementaire, il ex%C3%A9cute les taches suivantes 
-- [] Fournit un resultat structuré (tabeau, résumé , logging pr%C3%A9par%C3%A9)
+- [x] Exécution automatique lors de la demande :
+      "Test une nouvelle stratégie avec les caractéristiques : ..."
+- [x] Sans confirmation complémentaire, il exécute les tâches suivantes
+- [x] Fournit un résultat structuré (tableau, résumé, logging préparé)
 
-### Format de résultat standard
+### 🔗 Fichier de résultats standard
 
-\ Paramètre | Valeur \
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-\ Stratégie : DIF sur MACD avec J, conditions de vente ( J(3&15) baisse ) \
-| Capital initial : 3000$ | Capital final : 2702.36$ | Performance : -9.92% |
-| Lien resultats : https://github.com/SteBal-star/xrp-data/blob/master/backtest_output.txt |
+Tous les résultats de backtest sont disponibles dans ce fichier :
+📄 [backtest_output.txt](https://github.com/SteBal-star/xrp-data/blob/master/backtest_output.txt)
+
+---
+
+### 🧠 Étapes après chaque backtest (procédure de sauvegarde)
+
+1. 📝 **Demander à l'utilisateur s'il souhaite enregistrer la stratégie dans `logbook.json`**
+   - Si la réponse est **non**, aucun enregistrement n’est effectué
+   - Si la réponse est **oui**, passer à l’étape suivante
+
+2. 📘 **Demander s’il souhaite générer un fichier de trades détaillé**
+   - Le fichier est créé dans `logbook/`, nommé :
+     `strategie_<date>_<nom>.json`
+   - Il contient :
+     - Les horodatages d’entrée et de sortie
+     - Les prix d’entrée et de sortie
+     - L’effet de levier
+     - Le % brut, les frais, et le % net
+     - Le capital cumulé après chaque opération
