@@ -3,8 +3,8 @@ name: Backtest Strategy (Auto)
 on:
   push:
     paths:
-      - 'backtest_config.json'
-  workflow_dispatch:  # Permet aussi le déclenchement manuel
+      - 'backtest_config.json'  # Déclenche sur modification du fichier config
+  workflow_dispatch:            # Permet aussi le déclenchement manuel depuis GitHub
 
 jobs:
   backtest:
@@ -38,6 +38,7 @@ jobs:
       - name: ✅ Commit & Push des résultats
         run: |
           git add backtest_output.txt
-          git commit -m "📊 Résultats du backtest déclenchés par GPT"
+          git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats du backtest déclenchés par GPT"
           git push
         continue-on-error: true
+
