@@ -67,8 +67,12 @@ for interval in timeframes:
         raw_data = get_klines(symbol, interval, start_time, limit)
         print(f"Requête {interval} → {len(raw_data) if raw_data else 0} bougies")
 
-        if not raw_data or not isinstance(raw_data, list) or len(raw_data) == 0:
-            print(f"❌ Pas de données reçues pour {interval} à partir de {start_time}")
+        if not raw_data or not isinstance(raw_data, list):
+            print(f"❌ Pas de données valides reçues pour {interval} à partir de {start_time}")
+            break
+
+        if len(raw_data) < 2:
+            print(f"⚠️ Moins de 2 bougies reçues pour {interval} à partir de {start_time} → fin du téléchargement.")
             break
 
         try:
