@@ -33,10 +33,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: python main.py
 
-    - name: Commit and push changes
+        - name: Commit and push changes
       run: |
         git config --global user.name "Sydney"
         git config --global user.email "sydney@example.com"
+        git checkout -B main
         git add .
         git commit -m "auto: update CSVs from GitHub Actions" || echo "nothing to commit"
-        git push origin main --force
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main --force
