@@ -11,7 +11,7 @@ timeframes = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '1d']
 limit = 1000
 days_to_fetch = 30
 
-# ✅ Chemin compatible partout (local + GitHub)
+# Chemin de destination compatible (local + GitHub)
 dest_folder = os.path.join(os.getcwd(), "binancexrp")
 os.makedirs(dest_folder, exist_ok=True)
 
@@ -61,7 +61,7 @@ def convert_to_df(data):
 
 # === TRAITEMENT GLOBAL ===
 for interval in timeframes:
-    print(f"▶ Téléchargement : {interval}")
+    print(f"> Téléchargement : {interval}")
     end_time = int(datetime.now().timestamp() * 1000)
     start_time = int((datetime.now() - timedelta(days=days_to_fetch)).timestamp() * 1000)
     all_data = []
@@ -88,21 +88,18 @@ for interval in timeframes:
         filename = f"xrp_{interval}_last30days.csv"
         filepath = os.path.join(dest_folder, filename)
         final_df.to_csv(filepath)
-        print(f"✅ Sauvegardé : {filepath}")
+        print(f"> Fichier sauvegardé : {filepath}")
     else:
-        print(f"❌ Aucun résultat pour {interval}")
+        print(f"> Aucun résultat pour {interval}")
 
-        import subprocess
-
+# === PUSH GIT ===
 def push_to_github():
     try:
         subprocess.run(["git", "add", "."], check=True)
         subprocess.run(["git", "commit", "-m", "Update CSV data"], check=True)
         subprocess.run(["git", "push"], check=True)
-        print("✅ Données poussées sur GitHub avec succès.")
+        print(">> Données poussées sur GitHub avec succès.")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Erreur lors du push Git : {e}")
+        print(f">> Erreur Git : {e}")
 
-# === Appel après la génération des fichiers ===
 push_to_github()
-
