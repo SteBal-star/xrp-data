@@ -1,8 +1,13 @@
 {
-  "capital": 1000,
-  "leverage": 22,
-  "fee_rate": 0.15,
-  "buy_kdj_j_threshold": 30,
-  "sell_kdj_j_drop": true,
+  "strategy_name": "DifDea_J_MUTLITR_STRAT_3",
+  "initial_capital": 3000,
+  "risk_reward_ratio": 0.0,
+  "stop_loss_limit": 0.0,
+  "feerate": 0.15,
+  "gain_fee_rate": 0.05,
+  "loss-fee_rate": 0.15,
+  "takhe_profits": [],
+  "auto_reinvest": true,
+  "trading_strategy": "Croisement automatique sur trides: d'abord sur un croisement DIF/DEA aux 2 Implicites j'obtent. Vente sur interval de compraraison sur le K au timeframe 3 minutes. Test sur les 2 derniers de données de 30 jours",
   "csv_path": "binancexrp/xrp_1m_last30days.csv"
 }
