@@ -1,3 +1,4 @@
+import subprocess
 import os
 import requests
 import pandas as pd
@@ -90,3 +91,18 @@ for interval in timeframes:
         print(f"✅ Sauvegardé : {filepath}")
     else:
         print(f"❌ Aucun résultat pour {interval}")
+
+        import subprocess
+
+def push_to_github():
+    try:
+        subprocess.run(["git", "add", "."], check=True)
+        subprocess.run(["git", "commit", "-m", "Update CSV data"], check=True)
+        subprocess.run(["git", "push"], check=True)
+        print("✅ Données poussées sur GitHub avec succès.")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Erreur lors du push Git : {e}")
+
+# === Appel après la génération des fichiers ===
+push_to_github()
+
