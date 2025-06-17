@@ -1,10 +1,18 @@
 {
   "strategy_name": "Test_Strat",
-  "initial_capital": 100000,
+  "initial_capital": 1000,
   "risk_reward_ratio": 0.2,
   "stop_loss_limit": -0.5,
   "take_profits": [
-    { "target": "BNB", "volume": 500, "threshold": 0.05},
-    { "target": "ETHER", "volume": 500, "threshold": 0.05}
+    {
+      "target": "BNF",
+      "volume": 500,
+      "threshold": 0.05
+    },
+    {
+      "target": "ETHER",
+      "volume": 500,
+      "threshold": 0.05
+    }
   ]
 }
