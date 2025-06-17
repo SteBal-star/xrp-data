@@ -69,21 +69,19 @@ for interval in timeframes:
     while start_time < end_time:
         raw_data = get_klines(symbol, interval, start_time, limit)
 
-# Sécurité : si la réponse est vide ou incorrecte
-if not raw_data or not isinstance(raw_data, list) or len(raw_data) == 0:
-    print(f"❌ Pas de données reçues pour {interval} à partir de {start_time}")
-    break
+        # Sécurité : si aucune donnée n'est retournée
+        if not raw_data or not isinstance(raw_data, list) or len(raw_data) == 0:
+            print(f"❌ Pas de données reçues pour {interval} à partir de {start_time}")
+            break
 
-try:
-    df = convert_to_df(raw_data)
-    all_data.append(df)
-    last_time = raw_data[-1][0]
-except Exception as e:
-    print(f"⚠️ Erreur lors du traitement des données {interval} : {e}")
-    break
-
-        start_time = last_time + 60_000
-        time.sleep(0.3)
+        try:
+            df = convert_to_df(raw_data)
+            all_data.append(df)
+            last_time = raw_data[-1][0]
+            start_time = last_time + 60_000
+        except Exception as e:
+            print(f"⚠️ Erreur lors du traitement des données {interval} : {e}")
+            break
 
     if all_data:
         final_df = pd.concat(all_data)
@@ -98,7 +96,7 @@ except Exception as e:
         final_df.to_csv(filepath)
         print(f"✅ Sauvegardé : {filepath}")
     else:
-        print(f"❌ Aucun résultat pour {interval}")
+        print(f"❌ Aucun résultat final pour {interval}")
 
 # === GIT : PUSH AUTOMATIQUE VERS LE DÉPÔT ===
 github_token = os.getenv("GITHUB_TOKEN")
@@ -125,3 +123,4 @@ subprocess.run(["git", "remote", "add", "origin", repo_url], cwd=local_repo_path
 subprocess.run(["git", "push", "-u", "origin", "main", "--force"], cwd=local_repo_path)
 
 print("🚀 Fichiers envoyés sur GitHub !")
+
