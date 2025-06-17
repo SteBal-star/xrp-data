@@ -1,6 +1,7 @@
 import os
 import json
 import pandas as pd
+import subprocess
 
 # Charger les paramètres
 with open("backtest_config.json", "r") as f:
@@ -44,6 +45,16 @@ with open("backtest_output.txt", "w", encoding="utf-8") as f:
     f.write(f"📈 Capital initial : {capital}$\n")
     f.write(f"🏁 Capital final   : {equity:.2f}$\n")
     f.write(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%\n")
+
+    # Ajouter et commiter le fichier de sortie
+try:
+    subprocess.run(["git", "add", "backtest_output.txt"], check=True)
+    subprocess.run(["git", "commit", "-m", "📝 Résultat backtest"], check=True)
+    subprocess.run(["git", "push"], check=True)
+    print("✅ Fichier backtest_output.txt poussé sur GitHub.")
+except subprocess.CalledProcessError as e:
+    print(f"❌ Erreur lors du push du résultat : {e}")
+
 
 # Affichage console
 print("===== RÉSULTATS =====")
