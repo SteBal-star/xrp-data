@@ -1,26 +1,28 @@
-name: Run Backtest
+name: Backtest Strategy
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Déclenchement manuel (via GitHub ou via API GPT)
 
 jobs:
   backtest:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout du dépôt
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Installer les dépendances
+        run: pip install pandas
 
-    - name: Run backtest script
-      run: python run_backtest.py
+      - name: Exécuter le backtest
+        run: python run_backtest.py
 
-    - name: Show output
-      run: cat backtest_output.txt
+      - name: Afficher les résultats
+        run: |
+          echo "===== RÉSULTATS ====="
+          cat backtest_output.txt
