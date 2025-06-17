@@ -1,18 +1,11 @@
 {
-  "strategy_name": "Test_Strat",
-  "initial_capital": 1000,
-  "risk_reward_ratio": 0.2,
-  "stop_loss_limit": -0.5,
-  "take_profits": [
-    {
-      "target": "BNF",
-      "volume": 500,
-      "threshold": 0.05
-    },
-    {
-      "target": "ETHER",
-      "volume": 500,
-      "threshold": 0.05
-    }
-  ]
+  "strategy_name": "DifDea_J_MUTLITR_STRAT",
+  "initial_capital": 3000,
+  "risk_reward_ratio": 0.0,
+  "stop_loss_limit": 0.0,
+  "fee_rate": 0.15,
+  "take_profits": [],
+  "auto_reinvest": true,
+  "trading_strategy": "buywhen DIF clearly croise sur DEA (MCD) au monte son d'EAG au timeframe 1min, etq ventre si la valeur jours descends au 15mn comparin au prévisusple (J indicateur) sur le 15min. Vente sur jours les descendes du J en 3min",
+  "csv_path": "binancexrp/xrp_1m_last27ays.csv"
 }
