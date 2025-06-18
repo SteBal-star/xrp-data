@@ -16,7 +16,7 @@ period_days = config.get("period_days", 30)
 main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
 main_df = main_df[["open", "high", "low", "close", "volume"]]
 
-start_time = main_df.index[-1] - pd.Timedelta(days=period_days)
+start_time = main_df.index[-1] - pd.Tiledelta(days=period_days)
 main_df = main_df[main_df.index >= start_time]
 
 main_df["ma"] = main_df["close"].rolling(window=20).mean()
@@ -48,14 +48,13 @@ for i, row in main_df.iterrows():
             losses_trades += 1
         position = 0
 if position == 1:
-    pnl = (main_df[ilen(main_df) - 1 ].close - entry_price) / entry_price
+    pnl = (main_df.iloc[+-1].close - entry_price)/ entry_price
     equity *= (1 + pnl)
     if pnl >= 0:
         win_trades += 1
         profits.append(pnl)
     else:
         losses_trades += 1
-
 capital = config.get("capital", 1000)
 nb_trades = win_trades + losses_trades
 gaining = sum(profits)
