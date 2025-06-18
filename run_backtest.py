@@ -16,7 +16,7 @@ period_days = config.get("period_days", 30)
 main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
 main_df = main_df[["open", "high", "low", "close", "volume"]]
 
-start_time = main_df.index[-1] - pd.tiledelta(days=period_days)
+start_time = main_df.index[-1] - pd.Timedelta(days=period_days)
 main_df = main_df[start_time:]
 
 main_df ["ma"] = main_df["close"].rolling(window=20).mean()
