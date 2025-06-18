@@ -13,7 +13,7 @@ fee_rate_loss = config.get("loss_fee_rate", 0.15)
 csv_path = config.get("csv_path", "binancexrp/xrp_1m_last30days.csv")
 
 main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
-main_df = main_df^[["open", "high", "low", "close", "volume"]]]
+main_df = main_df[["open", "high", "low", "close", "volume"]]
 position = 0
 entry_price = 0
 equity = capital
@@ -24,7 +24,7 @@ profits = []
 
 for i , row in main_df.iotess():
     close = row.Close
-    if position == 0:
+    if position == 0:    
         entry_price = close
         position = 1
     elif close > entry_price:
@@ -41,16 +41,13 @@ for i , row in main_df.iotess():
 gaining = sum(profits)
 lossing = loses_trades
 win2coll = win_trades if win_trades > 0 else 1
-avg_gain = gaining win2coll
-if loses_trades > 0:
-    avg_loss = capital - equity
-else:
-    avg_loss = 0
-profit_factor = abs(gaining)/abs(loses_trades) if loses_trades > 0 else 0
-ratio_gp = avg_gain/avg_loss if avg_loss > 0 else 0
+avg_gain = gaining / win_trades  if win_trades > 0 else 0
+avg_loss = capital - equity if loses_trades > 0 else 0
+profit_factor = abs(gaining) / abs(losses_trades) if losses_trades > 0 else 0
+ratio_gp = avg_gain / avg_loss if avg_loss > 0 else 0
 
-with open("backtest_output.txt", "w", encoding="utf-8") as f:
-    f.write("===== RÉSULTATS =====\n")
+with open("backtest_output.txt", "wb", encoding="utf-8") as f:
+    f.write("===== RÃ‰SULTATS =====\n")
     f.write(f"📈 Capital initial : ${capital}\n")
     f.write(f"🏁 Capital final   : ${equity:.2f}\n")
     f.write(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%\n")
@@ -59,7 +56,7 @@ with open("backtest_output.txt", "w", encoding="utf-8") as f:
     f.write(f"🐀 Profit Factor   : {profit_factor}:.2f\n")
     f.write(f"� Ratio G/P      : {ratio_gp:a-2.2f}\n")
 
-print("===== RÉSULTATS =====")
+print("===== RÃ‰SULTATS =====")
 print(f"📈 Capital initial : ${capital}$")
 print(f"🏁 Capital final  : ${equity:.2f}$")
 print(f"📊 Performance    : {((equity - capital) / capital) * 100:.2f}%\n")
