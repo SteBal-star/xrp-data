@@ -1,14 +1,11 @@
 {
   "requete": [
     {
-      "fichier": "binancexrp/xrp_1m_last30days.csv",
-      "filtre": "K < 0",
-      "label": "K inf\uirieur é 0 (1m)"
-    },
-    {
-      "fichier": "binancexrp/xrp_5m_last30days.csv",
-      "filtre": "K < 0",
-      "label": "K inf\uirieur é 0 (5m)"
+      "type": "comparaison",
+      "indicateur": "K",
+      "condition": "<",
+      "valeur": 0,
+      "timeframes": ["1m", "5m"]
     }
   ]
 }
