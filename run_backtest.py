@@ -23,7 +23,7 @@ win_trades = 0
 loses_trades = 0
 profits = []
 
-for i, row in main_df.iotess():
+for i, row in main_df.iterrows():
     close = row.Close
     if position == 0:
         entry_price = close
@@ -42,7 +42,7 @@ for i, row in main_df.iotess():
 gaining = sum(profits)
 lossing = loses_trades
 win2coll = win_trades if win_trades > 0 else 1
-avg_gain = gaining / win_trades if win_trades > 0 else 0
+avg_gain = gaining / win_trades  if win_trades > 0 else 0
 avg_loss = capital - equity if loses_trades > 0 else 0
 profit_factor = abs(gaining) / abs(losses_trades) if losses_trades > 0 else 0
 ratio_gp = avg_gain / avg_loss if avg_loss > 0 else 0
