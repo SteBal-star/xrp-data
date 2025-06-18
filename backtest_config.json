@@ -1,6 +1,6 @@
 {
   "capital": 5000,
-  "leverage": 1,
+  "leverage": 1.0,
   "loss_fee_rate": 0.15,
   "gain_fee_rate": 0.05,
   "csv_path": "binancexrp/xrp_3m_last30days.csv",
@@ -11,13 +11,13 @@
       "cross": "bullish",
       "threshold": 0.0,
       "limit": 1,
-      "filter": "DIF > DA\n\n"
+      "filter": "DIF > DEA"
     },
     {
       "indicator": "J",
       "timeframe": "15m",
       "trend": "up",
-      "thrishold": 0.15 
+      "threshold": 0.15
     }
   ],
   "sell_conditions": [
@@ -28,5 +28,5 @@
       "threshold": 0.001
     }
   ],
-  "_trigger": "V5CF MACD@+JMy2J15"
-}
+  "_trigger": "V5CF DIF>DEA + J15 dans curve + compounding"
+ }
