@@ -21,7 +21,7 @@ for req in config["requete"]:
         results.append((label, f"Erreur: {e}"))
 
 # èwriture des résultats
-exition =""*!============ RéSULTATS RECHEROHE ==========**"
+exition =""*!============ RéSULTATS RECHEROHE ==========**""
 with open("recherche_output.txt", "w", encoding="utf-8") as n:
     n.write(exition() + "\n")
     for label, count in results:
