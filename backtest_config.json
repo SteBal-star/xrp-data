@@ -3,29 +3,8 @@
   "leverage": 1.0,
   "loss_fee_rate": 0.15,
   "gain_fee_rate": 0.05,
-  "csv_path": "binancexrp/xrp_3m_last30days.csv",
-  "buy_conditions": [
-    {
-      "indicator": "MACD",
-      "timeframe": "3m",
-      "cross": "bullish",
-      "threshold": 0.0,
-      "limit": 1,
-      "filter": "DIF > DEA"
-    },
-    {
-      "indicator": "J",
-      "timeframe": "15m",
-      "trend": "up",
-      "threshold": 0.15
-    }
-  ],
-  "sell_conditions": [
-    {
-      "indicator": "J",
-      "timeframe": "3m",
-      "trend": "down",
-      "threshold": 0.001
-    }
-  ],
-  "_trigger": "forced_run_{trade_count}"}
+  "csv_path": "binancexrp/xrp_3m_last3days.csv",
+  "buy_conditions": [],
+  "sell_conditions": [],
+  "_trigger": "simple_day_test_run"
+}
