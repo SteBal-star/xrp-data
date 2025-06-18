@@ -1,4 +1,8 @@
-===== RÉSULTATS =====
-📈 Capital initial : 3000$
-🏁 Capital final   : 2702.36$
-📊 Performance     : -9.92%
+======= RÉSULTATS =======
+Capital initial       : 5000
+Capital final         : 5000.00
+Performance           : 0.00%
+Drawdown max          : 0.00%
+Taux de réussite       : 3598%
+Profit Factor         : 0.00
+Ratio G/P             : 0.00
