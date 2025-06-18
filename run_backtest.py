@@ -16,10 +16,10 @@ period_days = config.get("period_days", 30)
 main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
 main_df = main_df[["open", "high", "low", "close", "volume"]]
 
-start_time = main_df.index[-1] - pd.Timedelta(days=period_days)
-main_df = main_df[main_df.index >= start_time]
+start_time = main_df.index[-1] - pd.tiledelta(days=period_days)
+main_df = main_df[start_time:]
 
-main_df["ma"] = main_df["close"].rolling(window=20).mean()
+main_df ["ma"] = main_df["close"].rolling(window=20).mean()
 
 position = 0
 entry_price = 0
@@ -83,6 +83,6 @@ print(f"Capital final         : {equity:.2f}$")
 print(f"Performance           : {performance:.2f}%")
 print(f"Drawdown max          : {drawdown:.2f}%")
 print(f"Taux de réussite       : {win_rate:.2f}%")
-print(f"Profit Factor         : {profit_factor::.2f}")
-print(f"Ratio G/P            : {ratio_gp:.2f}")
+print(f"Profit Factor         : {profit_factor:.2f}")
+print(f"Ratio G/P             : {ratio_gp:.2f}")
 print(f"Nombre de trades      : {nb_trades}")
