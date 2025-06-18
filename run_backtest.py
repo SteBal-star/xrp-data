@@ -24,7 +24,7 @@ loses_trades = 0
 profits = []
 
 for i, row in main_df.iterrows():
-    close = row.Close
+    close = row.close
     if position == 0:
         entry_price = close
         position = 1
