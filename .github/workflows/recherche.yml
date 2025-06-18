@@ -1,1 +1,40 @@
+name: Recherche Automatique
 
+on:
+  push:
+    paths:
+      - 'recherche_config.json'
+  workflow_dispatch:
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Cloner le dépôt
+        uses: actions/checkout@v3
+
+      - name: 🐍 Installer Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Installer les dépendances
+        run: pip install pandas
+
+      - name: 🔍 Exécuter le script de recherche
+        run: python run_recherche.py
+
+      - name: 📄 Afficher les résultats
+        run: |
+          echo "===== RÉSULTATS DE RECHERCHE ====="
+          cat recherche_output.txt
+
+      - name: ✅ Commit & Push des résultats
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add recherche_output.txt
+          git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats de recherche déclenchés automatiquement"
+          git push
+        continue-on-error: true
