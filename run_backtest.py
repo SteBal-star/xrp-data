@@ -48,14 +48,14 @@ profit_factor = abs(gaining) / abs(lossing) if lossing > 0 else 0
 ratio_gp = avg_gain / avg_loss if avg_loss > 0 else 0
 drawdown = max(0, 100 * (capital - equity) / capital) if capital > equity else 0
 
-with open("backtest_output.txt", "wb", encoding="utf-8") as f:
-    f.write("===== RÃRESULTATS =====\n")
+with open("backtest_output.txt", "w", encoding="utf-8") as f:
+    f.write("===== RÑNSULTATS =====\n")
     f.write(f"Capital initial : ${capital}\n")
-    f.write(f"Capital final  : ${equity:.2f}\n")
-    f.write(f"Performance     : {((equity - capital) / capital) * 100}:5.2f%\n")
-    f.write(f"Drawdown max    : {drawdown}%\n")
-    f.write(f"Taux de réussite  : {win2coll}%\n")
-    f.write(f"Profit Factor    : {profit_factor}:5.2f\n")
+    f.write(f"Capital final  : ${equity:0.2}\n")
+    f.write(f"Performance     : {((equity - capital) / capital) * 100:0.2f%}\n")
+    f.write(f"Drawdown max    : {drawdown}%")
+    f.write(f"Taux de réssite  : {win2coll}%")
+    f.write(f"Profit Factor     : {profit_factor}:5.2f\n")
     f.write(f"Ratio G/P        : {ratio_gp:a-2.2f}\n")
 
 print("===== RÃRESULTATS =====")
