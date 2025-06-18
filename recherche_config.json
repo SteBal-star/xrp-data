@@ -1,11 +1,1 @@
-{
-  "requete": [
-    {
-      "type": "comparaison",
-      "indicateur": "K",
-      "condition": "<",
-      "valeur": 10,
-      "timeframes": ["1m", "5m"]
-    }
-  ]
-}
+{"requete": [{"type": "comparaison", "indicateur": "K", "condition": "<", "valeur": 25, "timeframes": ["1m", "5m"]}]}
