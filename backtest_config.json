@@ -28,5 +28,5 @@
       "threshold": 0.001
     }
   ],
-  "_trigger": "V5CF DIF>DEA + J15 dans curve + compounding"
- }
+  "_trigger": "V5CF - relance After utf-8 patch"
+}
