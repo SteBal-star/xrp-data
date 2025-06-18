@@ -28,12 +28,7 @@ jobs:
       - name: 📄 Afficher les résultats
         run: |
           echo "===== RÉSULTATS ====="
-          cat backtest_output.txt
-
-      - name: 🛠 Configurer Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
+          cat backtest_output.txt || echo "📉 Fail de chargement u backtest."
 
       - name: ✅ Commit & Push des résultats
         run: |
@@ -41,4 +36,3 @@ jobs:
           git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats du backtest déclenchés par GPT"
           git push
         continue-on-error: true
-
