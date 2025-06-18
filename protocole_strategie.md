@@ -39,3 +39,20 @@ Lors de la mise à jour de fichiers `.py`, `.json`, `.yml`, etc. via l’API Git
 - Sinon, GitHub retournera une erreur (400 ou 422)
 - Cette règle garantit la stabilité et la réussite des modifications
 
+- ---
+
+### 🔐 Autorisations automatiques de mise à jour
+
+Les fichiers suivants sont considérés comme sûrs dans le cadre du protocole de stratégie. Ils peuvent être créés, modifiés ou écrasés automatiquement **sans demande de confirmation manuelle** :
+
+- `recherche_config.json`
+- `recherche_output.txt`
+- `run_recherche.py`
+- `backtest_config.json`
+- `backtest_output.txt`
+- `logbook.json`
+- `logbook/strategie_*.json`
+
+Cette règle permet l’exécution fluide des workflows automatisés (backtest et recherche) tout en garantissant la traçabilité via GitHub Actions.
+
+
