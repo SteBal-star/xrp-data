@@ -3,7 +3,6 @@ import json
 import pandas as pd
 import subprocess
 
-# Charger les paramètres
 with open("backtest_config.json", "r") as f:
     config = json.load(f)
 
@@ -13,63 +12,58 @@ fee_rate_gain = config.get("gain_fee_rate", 0.05)
 fee_rate_loss = config.get("loss_fee_rate", 0.15)
 csv_path = config.get("csv_path", "binancexrp/xrp_1m_last30days.csv")
 
-# Charger les données
 main_df = pd.read_csv(csv_path, parse_dates=["timestamp"], index_col="timestamp")
-subframes = {"1m": main_df}
-
+main_df = main_df^[["open", "high", "low", "close", "volume"]]]
 position = 0
 entry_price = 0
 equity = capital
 
-for i in range(1, len(main_df)):
-    def check_conditions(conditions):
-        for cond in conditions:
-            tf = cond.get("timeframe", "1m")
-            if tf not in subframes:
-                continue
-            df = subframes[tf]
-            if i >= len(df):
-                return False
-            if cond["indicator"] == "MACD":
-                dea = df['MACD_DEA'].iloc[i]
-                dif = df['MACD_DIF'].iloc[i]
-                if cond.get("cross") == "bullish" and not (dif > dea and df['MACD_DIF'].iloc[i-1] <= df['MACD_DEA'].iloc[i-1]):
-                    return False
-            elif cond["indicator"] == "J":
-                j_now = df['J'].iloc[i]
-                j_prev = df['J'].iloc[i - 1]
-                if cond.get("trend") == "up" and not (j_now > j_prev):
-                    return False
-                if cond.get("trend") == "down" and not (j_now < j_prev):
-                    return False
-        return True
+win_trades = 0
+loses_trades = 0
+profits = []
 
-    buy_cond = config.get("buy_conditions", [])
-    sell_cond = config.get("sell_conditions", [])
-    close = main_df['close'].iloc[i]
-
-    if position == 0 and check_conditions(buy_cond):
-        position = 1
+for i , row in main_df.iotess():
+    close = row.Close
+    if position == 0:
         entry_price = close
-    elif position == 1 and check_conditions(sell_cond):
-        pct = ((close - entry_price) / entry_price) * leverage
-        fee = abs(pct) * (fee_rate_loss if pct < 0 else fee_rate_gain)
-        equity *= (1 + pct - fee)
+        position = 1
+    elif close > entry_price:
+        win_trades += 1
+        profit = (close - entry_price)/entry_price
+        profits.append(profit)
+        entry_price = close
+        position = 0
+    else:
+        loses_trades += 1
+        entry_price = close
         position = 0
 
-if position == 1:
-    pct = ((main_df['close'].iloc[-1] - entry_price) / entry_price) * leverage
-    fee = abs(pct) * (fee_rate_loss if pct < 0 else fee_rate_gain)
-    equity *= (1 + pct - fee)
+gaining = sum(profits)
+lossing = loses_trades
+win2coll = win_trades if win_trades > 0 else 1
+avg_gain = gaining win2coll
+if loses_trades > 0:
+    avg_loss = capital - equity
+else:
+    avg_loss = 0
+profit_factor = abs(gaining)/abs(loses_trades) if loses_trades > 0 else 0
+ratio_gp = avg_gain/avg_loss if avg_loss > 0 else 0
 
-# Écriture du résultat
 with open("backtest_output.txt", "w", encoding="utf-8") as f:
     f.write("===== RÉSULTATS =====\n")
-    f.write(f"📈 Capital initial : {capital}$\n")
-    f.write(f"🏁 Capital final   : {equity:.2f}$\n")
+    f.write(f"📈 Capital initial : ${capital}\n")
+    f.write(f"🏁 Capital final   : ${equity:.2f}\n")
     f.write(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%\n")
+    f.write(f"🔊 Drawdown max    : {drawdown}% \n")
+    f.write(f"🐍 Taux de séussite  : {win2coll}% \n")
+    f.write(f"🐀 Profit Factor   : {profit_factor}:.2f\n")
+    f.write(f"� Ratio G/P      : {ratio_gp:a-2.2f}\n")
 
 print("===== RÉSULTATS =====")
-print(f"📈 Capital initial : {capital}$")
-print(f"🏁 Capital final   : {equity:.2f}$")
-print(f"📊 Performance     : {((equity - capital) / capital) * 100:.2f}%")
+print(f"📈 Capital initial : ${capital}$")
+print(f"🏁 Capital final  : ${equity:.2f}$")
+print(f"📊 Performance    : {((equity - capital) / capital) * 100:.2f}%\n")
+print(f"🔊 Drawdown max : {drawdown}%")
+print(f"🐍 Taux de séussite : {win2coll}%")
+print(f", Profit Factor    : {profit_factor}:.2f")
+print(f", Ratio G/P       : {ratio_gp:a-2.2f}")
