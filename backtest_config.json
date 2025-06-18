@@ -28,5 +28,4 @@
       "threshold": 0.001
     }
   ],
-  "_trigger": "forced_run_{trade_count}"
-}
+  "_trigger": "forced_run_{trade_count}"}
