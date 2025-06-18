@@ -47,7 +47,7 @@ avg_loss = capital - equity if loses_trades > 0 else 0
 profit_factor = abs(gaining) / abs(lossing) if lossing > 0 else 0
 ratio_gp = avg_gain / avg_loss if avg_loss > 0 else 0
 
-with open("backtest_output.txt", "wb", encoding="utf-8") as f:
+with open("backtest_output.txt", "w", encoding="utf-8") as f:
     f.write("===== RÃRESULTATS =====\n")
     f.write(f" Capital initial : ${capital}\n")
     f.write(f" Capital final   : ${equity:.2f}\n")
