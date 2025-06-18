@@ -44,7 +44,7 @@ lossing = loses_trades
 win2coll = win_trades if win_trades > 0 else 1
 avg_gain = gaining / win_trades  if win_trades > 0 else 0
 avg_loss = capital - equity if loses_trades > 0 else 0
-profit_factor = abs(gaining) / abs(losses_trades) if losses_trades > 0 else 0
+profit_factor = abs(gaining) / abs(lossing) if lossing > 0 else 0
 ratio_gp = avg_gain / avg_loss if avg_loss > 0 else 0
 
 with open("backtest_output.txt", "wb", encoding="utf-8") as f:
