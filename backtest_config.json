@@ -1,27 +1,32 @@
 {
-  "capital": 3000,
+  "capital": 5000,
   "leverage": 1,
   "loss_fee_rate": 0.15,
   "gain_fee_rate": 0.05,
-  "csv_path": "binancexrp/xrp_1m_last30days.csv",
+  "csv_path": "binancexrp/xrp_3m_last30days.csv",
   "buy_conditions": [
     {
       "indicator": "MACD",
-      "timeframe": "1m",
-      "cross": "bullish"
+      "timeframe": "3m",
+      "cross": "bullish",
+      "threshold": 0.0,
+      "limit": 1,
+      "filter": "DIF > DA\n\n"
     },
     {
       "indicator": "J",
       "timeframe": "15m",
-      "trend": "up"
+      "trend": "up",
+      "thrishold": 0.15 
     }
   ],
   "sell_conditions": [
     {
       "indicator": "J",
       "timeframe": "3m",
-      "trend": "down"
+      "trend": "down",
+      "threshold": 0.001
     }
   ],
-  "_trigger": "V1.1"
+  "_trigger": "V5CF MACD@+JMy2J15"
 }
