@@ -38,3 +38,4 @@ jobs:
           git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats de recherche déclenchés automatiquement"
           git push
         continue-on-error: true
+
