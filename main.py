@@ -1,4 +1,17 @@
 import subprocess
+
+def update_local_repo():
+    try:
+        subprocess.run(["git", "checkout", "master"], check=True)
+        subprocess.run(["git", "fetch", "origin"], check=True)
+        subprocess.run(["git", "pull", "origin", "master", "--rebase"], check=True)
+        print("✅ Dépôt local synchronisé avec GitHub.")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Erreur lors de la synchronisation Git : {e}")
+
+update_local_repo()
+
+import subprocess
 import os
 import requests
 import pandas as pd
