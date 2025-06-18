@@ -4,7 +4,7 @@
       "type": "comparaison",
       "indicateur": "K",
       "condition": "<",
-      "valeur": 0,
+      "valeur": 10,
       "timeframes": ["1m", "5m"]
     }
   ]
