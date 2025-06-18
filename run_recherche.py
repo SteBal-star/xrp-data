@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 # Lire la configuration de recherche js
-'with open("recherche_config.json", "r") as f:
+with open("recherche_config.json", "r") as f:
     config = json.load(f)
 
 results = []
