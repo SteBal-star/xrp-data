@@ -46,12 +46,12 @@ avg_gain = gaining / win_trades  if win_trades > 0 else 0
 avg_loss = capital - equity if loses_trades > 0 else 0
 profit_factor = abs(gaining) / abs(lossing) if lossing > 0 else 0
 ratio_gp = avg_gain / avg_loss if avg_loss > 0 else 0
-drawdown = max(0, 100% * (capital - equity) / capital)  if capital > equity else 0
+drawdown = max(0, 100 * (capital - equity) / capital) if capital > equity else 0
 
-with open("backtest_output.txt", "w", encoding="utf-8") as f:
-    f.write("===== RÉSULTATS =====\n")
+with open("backtest_output.txt", "wb", encoding="utf-8") as f:
+    f.write("===== RÃRESULTATS =====\n")
     f.write(f"Capital initial : ${capital}\n")
-    f.write(f"Capital final   : ${equity:.2f}\n")
+    f.write(f"Capital final  : ${equity:.2f}\n")
     f.write(f"Performance     : {((equity - capital) / capital) * 100}:5.2f%\n")
     f.write(f"Drawdown max    : {drawdown}%\n")
     f.write(f"Taux de réussite  : {win2coll}%\n")
