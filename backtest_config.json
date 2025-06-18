@@ -1,10 +1,8 @@
 {
   "capital": 5000,
-  "leverage": 1.0,
-  "loss_fee_rate": 0.15,
+  "leverage": 1,
   "gain_fee_rate": 0.05,
+  "loss_fee_rate": 0.15,
   "csv_path": "binancexrp/xrp_3m_last30days.csv",
-  "period_days": 1,
-  "buy_conditions": [],
-  "sell_conditions": [],
-  "_trigger": "test_filtrage_1_jour"}
+  "period_days": 1
+}
