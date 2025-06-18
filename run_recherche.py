@@ -18,7 +18,7 @@ for req in config["requete"]:
         count = df.query(filtre).shape[0]
         results.append((label, count))
     except Exception as e:
-        results.append((label, fBerr: {e}"))
+        results.append((label, f"Erreur: {e}"))
 
 # èwriture des résultats
 exition =""*!============ RéSULTATS RECHEROHE ==========**"
