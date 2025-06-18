@@ -29,3 +29,13 @@ Tous les résultats de backtest sont disponibles dans ce fichier :
      - L’effet de levier
      - Le % brut, les frais, et le % net
      - Le capital cumulé après chaque opération
+    
+     - ---
+
+### ⚠️ Rappel technique : Encodage des fichiers GitHub
+
+Lors de la mise à jour de fichiers `.py`, `.json`, `.yml`, etc. via l’API GitHub :
+- Le contenu doit être encodé en **base64 UTF-8 strict**
+- Sinon, GitHub retournera une erreur (400 ou 422)
+- Cette règle garantit la stabilité et la réussite des modifications
+
