@@ -28,5 +28,5 @@
       "threshold": 0.001
     }
   ],
-  "_trigger": "${time.now()}"
+  "_trigger": "forced_trigger_${time.now()}"
  }
