@@ -21,7 +21,7 @@ jobs:
 
       - name: 📦 Install dependencies
         run: |
-          pip install pandas PyYAML pandas_ta
+          pip install numpy==1.24 pandas PyYAML pandas_ta
 
       - name: 🚀 Run backtest
         run: python strategy_runner.py
@@ -34,3 +34,4 @@ jobs:
           git diff --cached --quiet || git commit -m "Résultats backtest pandas_ta"
           git push || echo "Push skipped"
         continue-on-error: true
+
