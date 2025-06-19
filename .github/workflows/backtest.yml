@@ -27,10 +27,10 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 📦 Installer les dépendances avec TA-Lib
+      - name: 📦 Installer TA-Lib (librairie native)
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential wget
+          sudo apt-get install -y build-essential libtool autoconf automake wget
           wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
           tar -xvzf ta-lib-0.4.0-src.tar.gz
           cd ta-lib/
@@ -38,6 +38,11 @@ jobs:
           make
           sudo make install
           cd ..
+          echo "/usr/lib" | sudo tee -a /etc/ld.so.conf.d/ta-lib.conf
+          sudo ldconfig
+
+      - name: 📦 Installer les packages Python
+        run: |
           pip install pandas PyYAML
           pip install ta-lib
 
@@ -50,3 +55,4 @@ jobs:
           git diff --cached --quiet || git commit -m "Résultats du backtest YAML"
           git push || echo "Push ignoré"
         continue-on-error: true
+
