@@ -5,11 +5,14 @@ on:
     paths:
       - 'strategy.yaml'
       - 'strategy_runner.py'
+      - '**/*.yaml'
+      - '**/*.py'
+  workflow_dispatch:  # ✅ ceci permet de cliquer sur “Run workflow”
 
 jobs:
   backtest:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: 🔄 Cloner le dépôt
         uses: actions/checkout@v3
