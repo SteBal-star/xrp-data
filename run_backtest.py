@@ -101,3 +101,9 @@ print(f"Taux de réussite       : {win_rate:.2f}%")
 print(f"Profit Factor         : {profit_factor:.2f}")
 print(f"Ratio G/P             : {ratio_gp:.2f}")
 print(f"Nombre de trades      : {nb_trades}")
+
+# PUSH AUTOMATIQUE DES FICHIERS GÉNÉRÉS
+os.system("git add trade_log.csv capital_history.csv backtest_output.txt")
+os.system('git commit -m "Mise à jour des résultats du backtest avec log des trades"')
+os.system("git push origin master")
+
