@@ -1,0 +1,19 @@
+capital: 8000
+leverage: 1
+
+fees:
+  gain: 0.05
+  loss: 0.15
+
+max_duration: 15  # en minutes (optionnel)
+
+entry:
+  indicator: macd
+  condition: cross_above
+  filter: below_zero
+  timeframe: 3m
+
+exit:
+  indicator: macd
+  condition: cross_below
+  timeframe: 1m
