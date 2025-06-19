@@ -35,9 +35,10 @@ jobs:
           echo "===== RÉSULTATS ====="
           cat backtest_output.txt || echo "📉 Fail de chargement u backtest."
 
-      - name: ✅ Commit & Push des résultats
+      - name: 📤 Commit & Push des résultats
         run: |
-          git add backtest_output.txt
-          git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats du backtest déclenchés par GPT"
+          git add backtest_output.txt capital_history.csv
+          git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats du backtest MAJ"
           git push
-        continue-on-error: true
+  continue-on-error: true
+
