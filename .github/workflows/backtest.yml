@@ -1,44 +1,9 @@
-name: Backtest Strategy (Auto)
+name: run-backtest
 
-on:
-  push:
-    paths:
-      - 'backtest_config.json'  # Déclenche sur modification du fichier config
-  workflow_dispatch:            # Permet aussi le déclenchement manuel depuis GitHub
-
-jobs:
-  backtest:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 🧲 Cloner le dépôt
-        uses: actions/checkout@v3
-
-      - name: 🆔 Configurer identité Git
-        run: |
-          git config --global user.email "gpt@xrp-bot.com"
-          git config --global user.name "XRP Backtest Bot"
-
-      - name: 🐍 Installer Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: 📦 Installer les dépendances
-        run: pip install pandas
-
-      - name: 🚀 Exécuter le backtest
-        run: python run_backtest.py
-
-      - name: 🧾 Afficher les résultats
-        run: |
-          echo "===== RÉSULTATS ====="
-          cat backtest_output.txt || echo "❌ Fichier de résultats non généré."
-
-      - name: 📤 Commit & Push des résultats
-        run: |
-          git add -f capital_history.csv
-          git add backtest_output.txt
-          git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats du backtest MAJ"
-          git push
-        continue-on-error: true
+on push:
+  run-backtest:
+    runs-on-ubuntu:
+      container: github-actions
+      image: python:3.11
+      commands: |
+        python run_backtest.py
