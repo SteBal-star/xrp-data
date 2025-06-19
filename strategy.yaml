@@ -1,11 +1,11 @@
-capital: 8000
+capital: 2000
 leverage: 1
 
-fees:
+fees: 
   gain: 0.05
-  loss: 0.15
+   loss: 0.15
 
-max_duration: 15  # en minutes (optionnel)
+period_days: 14
 
 entry:
   indicator: macd
@@ -14,6 +14,6 @@ entry:
   timeframe: 3m
 
 exit:
-  indicator: macd
-  condition: cross_below
+  indicator: kdj
+  condition: j_decreasing
   timeframe: 1m
