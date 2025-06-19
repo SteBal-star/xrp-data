@@ -103,7 +103,12 @@ print(f"Ratio G/P             : {ratio_gp:.2f}")
 print(f"Nombre de trades      : {nb_trades}")
 
 # PUSH AUTOMATIQUE DES FICHIERS GÉNÉRÉS
-os.system("git add trade_log.csv capital_history.csv backtest_output.txt")
-os.system('git commit -m "Mise à jour des résultats du backtest avec log des trades"')
-os.system("git push origin master")
+
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    print("ℹ️ Détection de GitHub Actions, pas de push direct depuis run_backtest.py.")
+else:
+    print("✅ Résultats générés localement, tentative de push Git.")
+    os.system("git add trade_log.csv capital_history.csv backtest_output.txt")
+    os.system('git commit -m "Mise à jour des résultats du backtest avec log des trades" || echo Rien à commit')
+    os.system("git push origin master || echo Échec du push")
 
