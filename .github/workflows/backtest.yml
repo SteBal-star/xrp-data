@@ -5,8 +5,6 @@ on:
     paths:
       - 'strategy.yaml'
       - 'strategy_runner.py'
-      - '**/*.yaml'
-      - '**/*.py'
   workflow_dispatch:
 
 jobs:
@@ -14,45 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔄 Cloner le dépôt
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: 🆔 Configurer Git
-        run: |
-          git config --global user.email "gpt@xrp-bot.com"
-          git config --global user.name "XRP Backtest Bot"
-
-      - name: 🐍 Installer Python
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: 📦 Installer TA-Lib (librairie native)
+      - name: 📦 Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libtool autoconf automake wget
-          wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-          tar -xvzf ta-lib-0.4.0-src.tar.gz
-          cd ta-lib/
-          ./configure --prefix=/usr
-          make
-          sudo make install
-          cd ..
-          echo "/usr/lib" | sudo tee -a /etc/ld.so.conf.d/ta-lib.conf
-          sudo ldconfig
+          pip install pandas PyYAML pandas_ta
 
-      - name: 📦 Installer les packages Python
-        run: |
-          pip install pandas PyYAML
-          pip install ta-lib
-
-      - name: 🚀 Lancer le backtest
+      - name: 🚀 Run backtest
         run: python strategy_runner.py
 
-      - name: 📤 Commit et push des résultats
+      - name: 📤 Push results
         run: |
-          git add -f trade_log.csv || echo "Aucun fichier à ajouter"
-          git diff --cached --quiet || git commit -m "Résultats du backtest YAML"
-          git push || echo "Push ignoré"
+          git config --global user.email "gpt@xrp-bot.com"
+          git config --global user.name "XRP Backtest Bot"
+          git add -f trade_log.csv || echo "Nothing to add"
+          git diff --cached --quiet || git commit -m "Résultats backtest pandas_ta"
+          git push || echo "Push skipped"
         continue-on-error: true
-
