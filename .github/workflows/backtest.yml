@@ -37,13 +37,8 @@ jobs:
 
       - name: 📤 Commit & Push des résultats
         run: |
-                - name: 📤 Commit & Push des résultats
-        run: |
           git add -f capital_history.csv
           git add backtest_output.txt
           git diff --cached --quiet && echo "✅ Aucun changement détecté" || git commit -m "📊 Résultats du backtest MAJ"
           git push
         continue-on-error: true
-
-        continue-on-error: true
-
