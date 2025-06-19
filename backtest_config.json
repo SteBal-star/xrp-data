@@ -4,5 +4,9 @@
   "gain_fee_rate": 0.05,
   "loss_fee_rate": 0.15,
   "csv_path": "binancexrp/xrp_3m_last30days.csv",
-  "period_days": 1
+  "period_days": 1,
+  "sequence": "macd_low = macd_dea = macd_dif && macd_dif > 0",
+  "sell_condition": "macd_dif < macd_dea",
+  "time_debug_t1": 3,
+  "time_devt_T2": 1
 }
