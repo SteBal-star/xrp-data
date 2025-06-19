@@ -27,11 +27,10 @@ jobs:
         with:
           python-version: '3.10'
 
-- name: 📦 Installer les dépendances (TA-Lib wheels)
-  run: |
-    pip install pandas PyYAML
-    pip install ta-lib==0.4.0.post1 --find-links https://mrjbq7.github.io/ta-lib/wheels/
-
+      - name: 📦 Installer les dépendances (TA-Lib wheels)
+        run: |
+          pip install pandas PyYAML
+          pip install ta-lib==0.4.0.post1 --find-links https://mrjbq7.github.io/ta-lib/wheels/
       - name: 🚀 Lancer le backtest
         run: python strategy_runner.py
 
