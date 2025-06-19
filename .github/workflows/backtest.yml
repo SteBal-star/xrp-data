@@ -1,20 +1,20 @@
-name: Backtest Strategy (Auto)
+name: Run Strategy Backtest
 
 on:
   push:
     paths:
-      - 'backtest_config.json'
-  workflow_dispatch:
+      - 'strategy.yaml'
+      - 'strategy_runner.py'
 
 jobs:
   backtest:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🧲 Cloner le dépôt
+      - name: 🔄 Cloner le dépôt
         uses: actions/checkout@v3
 
-      - name: 🆔 Configurer identité Git
+      - name: 🆔 Configurer Git
         run: |
           git config --global user.email "gpt@xrp-bot.com"
           git config --global user.name "XRP Backtest Bot"
@@ -25,27 +25,15 @@ jobs:
           python-version: '3.10'
 
       - name: 📦 Installer les dépendances
-        run: pip install pandas
-
-      - name: 🚀 Exécuter le backtest
         run: |
-          echo "📊 Début du backtest..."
-          python run_backtest.py
+          pip install pandas ta-lib PyYAML
 
-      - name: 🔍 Vérification des fichiers générés
-        run: |
-          echo "📂 Listing du contenu du dossier après le test :"
-          ls -lh
-          echo "📄 backtest_output.txt"
-          cat backtest_output.txt || echo "❌ Non trouvé"
-          echo "📄 trade_log.csv"
-          head -n 10 trade_log.csv || echo "❌ Non trouvé"
-          echo "📄 capital_history.csv"
-          head -n 10 capital_history.csv || echo "❌ Non trouvé"
+      - name: 🚀 Lancer le backtest
+        run: python strategy_runner.py
 
-      - name: 📤 Commit & Push résultats
+      - name: 📤 Commit et push des résultats
         run: |
-          git add -f trade_log.csv capital_history.csv backtest_output.txt || echo "Pas de changements"
-          git diff --cached --quiet || git commit -m "📊 Résultats du backtest MAJ"
-          git push || echo "Push échoué ou aucun changement"
+          git add -f trade_log.csv || echo "Aucun fichier à ajouter"
+          git diff --cached --quiet || git commit -m "Résultats du backtest YAML"
+          git push || echo "Push ignoré"
         continue-on-error: true
