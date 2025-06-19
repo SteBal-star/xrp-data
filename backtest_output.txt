@@ -1,9 +1,9 @@
 ======= RÉSULTATS =======
 Capital initial       : 5000
-Capital final         : 4748.88
-Performance           : -5.02%
-Drawdown max          : 5.02%
+Capital final         : 4999.89
+Performance           : -0.00%
+Drawdown max          : 0.00%
 Taux de réussite       : 47.08%
-Profit Factor         : 0.00
-Ratio G/P             : 0.00
+Profit Factor         : 0.68
+Ratio G/P             : 0.77
 Nombre de trades      : 240
